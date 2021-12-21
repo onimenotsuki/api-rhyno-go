@@ -2,15 +2,15 @@ package main
 
 import (
 	"context"
-	"enconding/json"
+	"encoding/json"
 	"fmt"
 	"log"
 	"os"
 
 	"github.com/gin-gonic/gin"
 	"github.com/joho/godotenv"
+	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/mongo"
-	"go.mongodb.org/mongo-driver/mongo/bson"
 	"go.mongodb.org/mongo-driver/mongo/options"
 )
 
@@ -47,6 +47,7 @@ func main() {
 	var result bson.M
 
 	err = coll.FindOne(context.TODO(), bson.D{{"title", title}}).Decode(&result)
+
 	if err == mongo.ErrNoDocuments {
 		fmt.Print("No document was found with the title %s\n", title)
 		return
@@ -57,9 +58,10 @@ func main() {
 	}
 
 	jsonData, err := json.MarshalIndent(result, "", "  ")
+
 	if err != nil {
 		panic(err)
 	}
-	fmt.Printf("%s\n", jsonData)
 
+	fmt.Printf("%s\n", jsonData)
 }
