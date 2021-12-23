@@ -1,0 +1,9 @@
+services:
+  server:
+    build: nginx
+    ports:
+      - 80:80
+    depends_on:
+      - api
+  api:
+    build: .
